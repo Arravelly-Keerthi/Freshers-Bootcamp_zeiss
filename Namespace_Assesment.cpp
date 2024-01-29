@@ -16,7 +16,7 @@ int main()
    	{
    		++var;
    		cout << setw(10) << var; // 3.Block Scope value 21
-   		cout << setw(10) << ++ ::var; // 4.Global Scope val 1
+   		cout << setw(10) << ++ ::var; // 4.Global variable File scope val 1
    		cout << setw(10) << Special::var * 2 // 5.Namespace  100*2
    			<< endl;
    	}
