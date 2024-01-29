@@ -1,4 +1,3 @@
-// Online C++ compiler to run C++ program online
 #include <iostream>
 using namespace std;
 class customer{
@@ -9,42 +8,25 @@ class customer{
     long phone;
     string email;
     public:
-    customer(string n,string a,int pno,int ano)
+    customer(string n,string a,int pno,int ano):name{n},address{a},panno{pno},aadharno{ano}
     {
          cout<<"inside cons1"<<endl;
-        name=n;
-        address=a;
-        panno=pno;
-        aadharno=ano;
     }
-    customer(string n,string a,int pno,int ano,long p)
+    //deligating constructor
+    customer(string n,string a,int pno,int ano,long p):customer(n,a,pno,ano)
     {
-        cout<<"inside cons2"<<endl;
-        name=n;
-        address=a;
-        panno=pno;
-        aadharno=ano;
         phone=p;
+        cout<<"inside cons2"<<endl;
     }
-    customer(string n,string a,int pno,int ano,string e)
+    customer(string n,string a,int pno,int ano,string e):customer(n,a,pno,ano)
     {
         cout<<"inside cons3"<<endl;
-        name=n;
-        address=a;
-        panno=pno;
-        aadharno=ano;
-        //phone=p;
         email=e;
     }
    
-    customer(string n,string a,int pno,int ano,long p,string e)
+    customer(string n,string a,int pno,int ano,long p,string e):customer(n,a,pno,ano,p)
     {
         cout<<"inside cons4"<<endl;
-        name=n;
-        address=a;
-        panno=pno;
-        aadharno=ano;
-        phone=p;
         email=e;
     }
 };
