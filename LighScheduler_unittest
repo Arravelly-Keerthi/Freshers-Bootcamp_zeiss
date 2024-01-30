@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+class ITimeService {
+public:
+    virtual int GetTime() const = 0;
+    virtual void SetPeriodicAlarm(int interval) = 0;
+};
+
+class ILightController {
+public:
+    virtual void On(int id) = 0;
+    virtual void Off(int id) = 0;
+};
+
+class LightController : public ILightController {
+public:
+    void On(int id) override {
+        cout << "Turning on light with ID " << id << endl;
+    }
+
+    void Off(int id) override {
+        cout << "Turning off light with ID " << id << endl;
+    }
+};
+
+class TimeService : public ITimeService {
+public:
+    int GetTime() const override {
+        cout << "Time " << endl;
+        return 0;
+    }
+
+    void SetPeriodicAlarm(int interval) override {
+        cout << "Setting periodic alarm with interval: " << interval << " seconds." << endl;
+    }
+};
+
+class LightScheduler {
+private:
+    ILightController* lightController;
+    ITimeService* timeService;
+
+public:
+    LightScheduler(ILightController* lc, ITimeService* ts)
+        : lightController(lc), timeService(ts) {}
+
+    void ScheduleTurnOn(int time, const std::string& days, int duration) {
+        int currentTime = timeService->GetTime();
+        lightController->On(1);
+    }
+
+    void SetPeriodicAlarm(int interval) {
+        timeService->SetPeriodicAlarm(interval);
+    }
+
+    void WakeUp() {
+        cout << "Waking up..." << endl;
+    }
+};
+
+int main() {
+    LightController lightController;
+    TimeService timeService;
+    LightScheduler scheduler(&lightController, &timeService);
+
+    scheduler.ScheduleTurnOn(10, "Everyday", 30);
+    scheduler.SetPeriodicAlarm(60);
+    scheduler.WakeUp();
+
+    return 0;
+}
