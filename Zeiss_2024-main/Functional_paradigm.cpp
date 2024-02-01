@@ -36,5 +36,43 @@ int main() {
     
     return 0;
 }
+------------------------------------------------------------------------------------------------------------------------------
+    #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <functional>
+using namespace std;
+auto isDivisibleBy(int &&divisor) {
+       return [divisor](const std::string& str) {
+        return str.length() % divisor == 0;
+    };
+}
 
+vector<string> search( vector<string>&& strings,  function<bool( string&&)>&& criteria) {
+    vector<string> result;
+    for (  string str : strings) {
+        if (criteria(move(str))) {
+            result.push_back(str);
+        }
+    }
+    return result;
+}
+
+void printDivisibleStrings( vector<string>&& divisibleStrings) {
+    cout << "Strings with length divisible by divisor: ";
+    for (const string& str : divisibleStrings) {
+        cout << str << " ";
+    }
+    cout << endl;
+}
+
+int main() {
+    //vector<string> strings = 
+    auto isDivisibleBy3 = isDivisibleBy(3);
+    vector<string> divisibleStrings =search({"apple", "banana", "orange", "grape", "kiwi"}, move(isDivisibleBy3)) ;
+    printDivisibleStrings(move(divisibleStrings));
+    
+    // printDivisibleStrings(search({"apple", "banana", "orange", "grape", "kiwi"}, isDivisibleBy3));
+    return 0;
+}
 
