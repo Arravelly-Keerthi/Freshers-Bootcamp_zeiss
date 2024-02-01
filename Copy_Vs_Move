@@ -1,0 +1,35 @@
+#include <iostream>
+#include <string>
+using namespace std;
+class MyClass {
+    string data;
+public:
+    MyClass(const string& value) : data(value) {
+    cout << "Parameterized Constructor called with value: " << value << endl;
+    }
+    MyClass(const MyClass& other) : data(other.data) {
+    cout << "Copy Constructor called" <<endl;
+    }
+    MyClass(MyClass&& other):data(move(other.data)) {
+        cout << "Move Constructor called" <<endl;
+    }
+    ~MyClass() {
+    cout << "Destructor called for data: " << data << endl;
+    }
+
+    void printData() const {
+        cout << "Data: " << data <<endl;
+    }
+
+};
+
+int main() {
+    MyClass obj1("hiii");
+    MyClass obj2("Hello");
+    MyClass obj3(obj2);
+    MyClass obj4(move(obj2));
+    obj1.printData();
+    obj2.printData(); 
+
+    return 0;
+}
