@@ -1,0 +1,15 @@
+name: Preconfigured Actions
+on:
+ push:
+    branches: [ master ]
+ pull_request:
+    branches: [ master ]
+jobs:
+ check-complexity:
+    runs-on: ubuntu-latest
+    steps: # Lizard
+    - uses: actions/checkout@v2
+    - name: Install Lizard
+      run: sudo apt-get install python3-pip && pip3 install lizard
+    - name: Check Code Complexity
+      run: lizard -C 3
