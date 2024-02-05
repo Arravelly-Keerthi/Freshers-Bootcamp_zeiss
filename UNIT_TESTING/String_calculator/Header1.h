@@ -1,46 +1,59 @@
+
 #pragma once
 #include <string>
 #include <sstream>
+#include <vector>
+#include <stdexcept>
 
-using namespace std;
-
-int add(string numbers) {
-    // Default delimiter is ','
-    char delimiter = ',';
-
-    // Check if a custom delimiter is specified
-    if (numbers.find("//") == 0) {
-        delimiter = numbers[2];
-        // Update numbers to exclude the delimiter specification
-        numbers = numbers.substr(4);
+class StringCalculator {
+    static bool hasCustomDelimiter(const std::string& numbers) {
+        return numbers.find("//") == 0;
     }
 
-    int sum = 0;
-    // Create a stringstream from the input string
-    stringstream ss(numbers);
-    string num, strg;
+    static char extractDelimiter(const std::string& numbers) {
+        return numbers[2];
+    }
 
-    // Iterate through each line in the input string
-    while (getline(ss, strg, '\n')) {
-        // Create a stringstream for the current line
-        stringstream lineStream(strg);
+    static std::string extractNumbers(const std::string& numbers) {
+        return numbers.substr(4);
+    }
 
-        // Iterate through each number in the line using the specified delimiter
-        while (getline(lineStream, num, delimiter)) {
-            int currentNum = stoi(num);
-
-            // Check if the current number is negative, and throw an exception if it is
-            if (currentNum < 0) {
-                throw runtime_error("negatives not allowed: " + to_string(currentNum));
+    static std::vector<std::string> tokenize(const std::string& numbers, char delimiter) {
+        std::vector<std::string> tokens;
+        std::stringstream ss(numbers);
+        std::string num, strg;
+        while (getline(ss, strg, '\n')) {
+            std::stringstream lineStream(strg);
+            while (getline(lineStream, num, delimiter)) {
+                tokens.push_back(num);
             }
+        }
+        return tokens;
+    }
 
-            // Add the current number to the sum if it is less than or equal to 1000
+    static int calculateSum(const std::vector<std::string>& numberTokens) {
+        int sum = 0;
+        for (const auto& token : numberTokens) {
+            int currentNum = std::stoi(token);
+            if (currentNum < 0) {
+                throw std::runtime_error("Negatives not allowed: " + std::to_string(currentNum));
+            }
             if (currentNum <= 1000) {
                 sum += currentNum;
             }
         }
+        return sum;
     }
+public:
+    static int add(const std::string& numbers) {
+        char delimiter = ',';
+        if (hasCustomDelimiter(numbers)) {
+            delimiter = extractDelimiter(numbers);
+            numbers = extractNumbers(numbers);
+        }
 
-    // Return the sum of valid numbers
-    return sum;
-}
+        std::vector<std::string> numberTokens = tokenize(numbers, delimiter);
+
+        return calculateSum(numberTokens);
+    }  
+};
