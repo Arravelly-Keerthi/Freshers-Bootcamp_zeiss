@@ -1,3 +1,6 @@
+
+![Untitled Diagram drawio](https://github.com/Arravelly-Keerthi/Freshers-Bootcamp_zeiss/assets/95274988/61e7679e-2adb-4a02-89e9-4a7c8b676b42)
+
 1. EmptyCart:
    - Input: ""
    - Expected Output: 0
